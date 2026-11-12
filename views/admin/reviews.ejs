@@ -1,0 +1,35 @@
+<%- include('../partials/top', { noindex: true }) %>
+<section class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+  <div class="flex items-center justify-between gap-4">
+    <h1 class="text-2xl font-bold tracking-tight">Reviews</h1>
+    <div class="flex items-center gap-2">
+      <a href="/admin/trips/new" class="btn btn-ghost focus-ring">Trips</a>
+      <form method="post" action="/admin/logout"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-ghost focus-ring" type="submit">Log out</button></form>
+    </div>
+  </div>
+  <% if (flash) { %><p role="status" class="mt-6 rounded-xl px-4 py-3 text-sm <%= flash.type === 'success' ? 'bg-green-50 text-green-900' : 'bg-red-50 text-red-800' %>"><%= flash.text %></p><% } %>
+
+  <% [['Waiting for approval (' + pending.length + ')', pending, true], ['Published (' + approved.length + ')', approved, false]].forEach(function (g) { %>
+  <h2 class="mt-10 text-xl font-semibold"><%= g[0] %></h2>
+  <% if (!g[1].length) { %><p class="mt-3 text-muted">Nothing here.</p><% } else { %>
+  <ul class="mt-4 space-y-4">
+    <% g[1].forEach(function (r) { %>
+    <li class="rounded-2xl border border-line p-4">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <p class="text-sm"><span class="font-semibold"><%= r.name %></span><% if (r.trip) { %> <span class="text-muted">· <%= r.trip %></span><% } %> <span class="text-muted">· <%= r.created_at.slice(0, 10) %></span></p>
+        <%- include('../partials/stars', { n: r.rating }) %>
+      </div>
+      <p class="mt-2 whitespace-pre-line"><%= r.text %></p>
+      <div class="mt-3 flex gap-2">
+        <% if (g[2]) { %>
+        <form method="post" action="/admin/reviews/<%= r.id %>/approve"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-primary focus-ring" style="padding:.45rem .9rem;font-size:.85rem" type="submit">Approve</button></form>
+        <% } %>
+        <form method="post" action="/admin/reviews/<%= r.id %>/delete" data-confirm="Delete this review by <%= r.name %>? This cannot be undone."><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn-danger focus-ring" type="submit">Delete</button></form>
+      </div>
+    </li>
+    <% }) %>
+  </ul>
+  <% } %>
+  <% }) %>
+</section>
+<%- include('../partials/bottom') %>

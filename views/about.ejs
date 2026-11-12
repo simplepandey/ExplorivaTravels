@@ -1,0 +1,17 @@
+<%- include('partials/top') %>
+<section class="mx-auto max-w-3xl px-4 pt-12 sm:px-6">
+  <p class="eyebrow">About us</p>
+  <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-5xl">Travel that feels easy, safe and a little bit magical.</h1>
+  <div class="mt-8 space-y-5 text-lg leading-relaxed text-muted">
+    <p><%= brand %> organises small-group trips for women who love to explore but would rather not plan every detail, or travel alone.</p>
+    <p>We choose destinations, stays and experiences with care, keep groups small, and stay in touch with you from the first message to the journey home.</p>
+    <p>Whether you're coming with a friend or on your own, you'll find yourself in good company.</p>
+  </div>
+  <div class="mt-10 grid gap-4 sm:grid-cols-3">
+    <% [['Comfort first', 'Stays and pacing chosen so you can enjoy the trip, not endure it.'], ['Real connections', 'Group sizes that let everyone get to know each other.'], ['Clear communication', 'Plain answers on dates, prices and what is included.']].forEach(function (v) { %>
+    <div class="why-card"><h2 class="font-semibold"><%= v[0] %></h2><p class="mt-1 text-sm text-muted"><%= v[1] %></p></div>
+    <% }) %>
+  </div>
+  <a href="/trips" class="btn btn-primary focus-ring mt-10">See upcoming trips</a>
+</section>
+<%- include('partials/bottom') %>

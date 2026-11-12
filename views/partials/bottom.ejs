@@ -1,0 +1,30 @@
+</main>
+<footer class="mt-24 border-t border-line bg-surface">
+  <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
+    <div>
+      <p class="text-lg font-semibold"><%= brand %></p>
+      <p class="mt-2 max-w-xs text-sm text-muted">Small-group trips for women, planned with care and shared with good company.</p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold">Explore</p>
+      <ul class="mt-3 space-y-2 text-sm text-muted">
+        <li><a class="hover-link focus-ring" href="/trips">Upcoming trips</a></li>
+        <li><a class="hover-link focus-ring" href="/reviews">Reviews</a></li>
+        <li><a class="hover-link focus-ring" href="/about">About us</a></li>
+        <li><a class="hover-link focus-ring" href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="text-sm font-semibold">Get in touch</p>
+      <ul class="mt-3 space-y-2 text-sm text-muted">
+        <li><a class="hover-link focus-ring" href="<%= contact.emailHref %>"><%= contact.email %></a></li>
+        <li><a class="hover-link focus-ring" href="<%= contact.phoneHref %>"><%= contact.phone %></a></li>
+        <li><a class="hover-link focus-ring" href="<%= contact.whatsappHref %>" target="_blank" rel="noopener">WhatsApp us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-line py-5 text-center text-xs text-muted">© <%= new Date().getFullYear() %> <%= brand %> · explorivatravels.com</div>
+</footer>
+<script src="/js/app.js" defer></script>
+</body>
+</html>

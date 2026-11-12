@@ -1,0 +1,56 @@
+<%- include('partials/top') %>
+<section class="hero">
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <p class="eyebrow">Women's group travel</p>
+    <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">Journeys made for women, shared with friends you haven't met yet.</h1>
+    <p class="mt-5 max-w-xl text-lg text-muted">Small groups, thoughtful itineraries and beautiful places. Pack your bag, we'll handle the rest.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/trips" class="btn btn-primary focus-ring">Explore trips</a>
+      <a href="<%= contact.whatsappHref %>" target="_blank" rel="noopener" class="btn btn-ghost focus-ring">Chat on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-labelledby="featured">
+  <div class="flex items-end justify-between">
+    <h2 id="featured" class="text-2xl font-semibold tracking-tight sm:text-3xl">Coming up</h2>
+    <a href="/trips" class="text-sm font-semibold text-accent hover-link focus-ring">View all trips →</a>
+  </div>
+  <% if (trips.length) { %>
+  <div class="trip-grid mt-8">
+    <% trips.forEach(function (t) { %><%- include('partials/trip-card', { t: t }) %><% }) %>
+  </div>
+  <% } else { %>
+  <div class="mt-8"><%- include('partials/empty') %></div>
+  <% } %>
+</section>
+
+<section class="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8" aria-labelledby="why">
+  <h2 id="why" class="text-2xl font-semibold tracking-tight sm:text-3xl">Why travel with us</h2>
+  <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <% [
+      { h: 'Women-only groups', p: 'Travel with a like-minded group in a space that feels relaxed and welcoming from day one.', d: 'M12 12a4 4 0 100-8 4 4 0 000 8zm-7 9a7 7 0 0114 0' },
+      { h: 'Small by design', p: 'Smaller groups mean better stays, easier logistics and real conversations.', d: 'M17 20h5v-2a4 4 0 00-5-3.9M9 12a4 4 0 100-8 4 4 0 000 8zm-7 8v-1a5 5 0 0110 0v1' },
+      { h: 'Planned with care', p: 'Itineraries balance sightseeing with downtime, and every stay is chosen with comfort and safety in mind.', d: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+      { h: 'Help whenever you need it', p: 'Reach us on WhatsApp before, during and after your trip.', d: 'M8 10h8M8 14h5m-9 7l2-4a8 8 0 113 3l-5 1z' }
+    ].forEach(function (f) { %>
+    <div class="why-card">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="<%= f.d %>"/></svg>
+      <h3 class="mt-4 font-semibold"><%= f.h %></h3>
+      <p class="mt-1 text-sm text-muted"><%= f.p %></p>
+    </div>
+    <% }) %>
+  </div>
+</section>
+<% if (topReviews.length) { %>
+<section class="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8" aria-labelledby="reviews-h">
+  <div class="flex items-end justify-between">
+    <h2 id="reviews-h" class="text-2xl font-semibold tracking-tight sm:text-3xl">What travellers say</h2>
+    <a href="/reviews" class="text-sm font-semibold text-accent hover-link focus-ring">Read all reviews →</a>
+  </div>
+  <div class="mt-8 grid gap-6 md:grid-cols-3">
+    <% topReviews.forEach(function (r) { %><%- include('partials/review-card', { r: r }) %><% }) %>
+  </div>
+</section>
+<% } %>
+<%- include('partials/bottom') %>

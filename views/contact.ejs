@@ -1,0 +1,18 @@
+<%- include('partials/top') %>
+<section class="mx-auto max-w-3xl px-4 pt-12 sm:px-6">
+  <p class="eyebrow">Contact</p>
+  <h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-5xl">Let's plan your next trip.</h1>
+  <p class="mt-4 text-lg text-muted">Questions about a trip, dates or what's included? Message us. WhatsApp is usually quickest.</p>
+  <div class="mt-10 grid gap-4 sm:grid-cols-3">
+    <a class="contact-card focus-ring" href="<%= contact.whatsappHref %>" target="_blank" rel="noopener">
+      <span class="text-sm text-muted">WhatsApp</span><span class="mt-1 block font-semibold"><%= contact.phone %></span>
+    </a>
+    <a class="contact-card focus-ring" href="<%= contact.phoneHref %>">
+      <span class="text-sm text-muted">Phone</span><span class="mt-1 block font-semibold"><%= contact.phone %></span>
+    </a>
+    <a class="contact-card focus-ring" href="<%= contact.emailHref %>">
+      <span class="text-sm text-muted">Email</span><span class="mt-1 block break-all font-semibold"><%= contact.email %></span>
+    </a>
+  </div>
+</section>
+<%- include('partials/bottom') %>

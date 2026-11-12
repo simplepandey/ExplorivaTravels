@@ -1,0 +1,12 @@
+<%- include('partials/top', { noindex: true }) %>
+<section class="mx-auto max-w-sm px-4 py-20">
+  <h1 class="text-2xl font-bold tracking-tight">Sign in</h1>
+  <% if (error) { %><p role="alert" class="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-800"><%= error %></p><% } %>
+  <form method="post" action="/login" class="mt-6 space-y-4" autocomplete="off">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div><label class="label" for="username">Username</label><input class="input" id="username" name="username" type="text" required autocomplete="username" autocapitalize="none"></div>
+    <div><label class="label" for="password">Password</label><input class="input" id="password" name="password" type="password" required autocomplete="current-password"></div>
+    <button class="btn btn-primary focus-ring w-full" type="submit">Sign in</button>
+  </form>
+</section>
+<%- include('partials/bottom') %>

@@ -1,0 +1,99 @@
+<%- include('../partials/top', { noindex: true }) %>
+<%
+  const v = (k) => (values && values[k]) || '';
+  const err = (k) => errors && errors[k];
+%>
+<section class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+  <div class="flex items-center justify-between gap-4">
+    <h1 class="text-2xl font-bold tracking-tight">Add a trip</h1>
+    <div class="flex items-center gap-2">
+    <a href="/admin/reviews" class="btn btn-ghost focus-ring">Reviews</a>
+    <form method="post" action="/admin/logout">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button class="btn btn-ghost focus-ring" type="submit">Log out</button>
+    </form>
+    </div>
+  </div>
+
+  <% if (flash) { %>
+  <p role="status" class="mt-6 rounded-xl px-4 py-3 text-sm <%= flash.type === 'success' ? 'bg-green-50 text-green-900' : 'bg-red-50 text-red-800' %>"><%= flash.text %></p>
+  <% } %>
+  <% if (errors && Object.keys(errors).length) { %>
+  <p role="alert" class="mt-6 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-800">Please fix the highlighted fields and try again. (Re-select your images; browsers don't keep them.)</p>
+  <% } %>
+
+  <form id="trip-form" method="post" action="/admin/trips" enctype="multipart/form-data" class="mt-6 grid gap-5 sm:grid-cols-2" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="sm:col-span-2">
+      <label class="label" for="title">Title</label>
+      <input class="input" id="title" name="title" maxlength="120" required value="<%= v('title') %>" aria-invalid="<%= !!err('title') %>">
+      <% if (err('title')) { %><p class="field-error"><%= err('title') %></p><% } %>
+    </div>
+    <div>
+      <label class="label" for="destination">Destination</label>
+      <input class="input" id="destination" name="destination" maxlength="120" required value="<%= v('destination') %>">
+      <% if (err('destination')) { %><p class="field-error"><%= err('destination') %></p><% } %>
+    </div>
+    <div>
+      <label class="label" for="price">Price per person (₹)</label>
+      <input class="input" id="price" name="price" inputmode="numeric" required value="<%= v('price') %>" placeholder="e.g. 38500">
+      <% if (err('price')) { %><p class="field-error"><%= err('price') %></p><% } %>
+    </div>
+    <div>
+      <label class="label" for="start_date">Start date</label>
+      <input class="input" id="start_date" name="start_date" type="date" min="<%= todayStr %>" required value="<%= v('start_date') %>">
+      <% if (err('start_date')) { %><p class="field-error"><%= err('start_date') %></p><% } %>
+    </div>
+    <div>
+      <label class="label" for="end_date">End date</label>
+      <input class="input" id="end_date" name="end_date" type="date" min="<%= todayStr %>" required value="<%= v('end_date') %>">
+      <% if (err('end_date')) { %><p class="field-error"><%= err('end_date') %></p><% } %>
+    </div>
+    <div class="sm:col-span-2">
+      <label class="label" for="blurb">Short blurb <span class="font-normal text-muted">(shown on cards, max 200 characters)</span></label>
+      <input class="input" id="blurb" name="blurb" maxlength="200" required value="<%= v('blurb') %>">
+      <% if (err('blurb')) { %><p class="field-error"><%= err('blurb') %></p><% } %>
+    </div>
+    <div class="sm:col-span-2">
+      <label class="label" for="description">Full description <span class="font-normal text-muted">(leave a blank line between paragraphs)</span></label>
+      <textarea class="input" id="description" name="description" rows="7" maxlength="5000" required><%= v('description') %></textarea>
+      <% if (err('description')) { %><p class="field-error"><%= err('description') %></p><% } %>
+    </div>
+    <div class="sm:col-span-2">
+      <label class="label" for="images">Images <span class="font-normal text-muted">(2–10 files, JPG/PNG/WebP, 5 MB each. The first is the cover.)</span></label>
+      <input class="input file" id="images" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required>
+      <% if (err('images')) { %><p class="field-error"><%= err('images') %></p><% } %>
+      <p id="image-msg" class="field-error" hidden></p>
+      <ul id="preview" class="preview-grid" aria-label="Selected images"></ul>
+    </div>
+    <div class="sm:col-span-2"><button class="btn btn-primary focus-ring" type="submit">Save trip</button></div>
+  </form>
+
+  <h2 class="mt-16 text-xl font-semibold">Existing trips</h2>
+  <% if (!trips.length) { %>
+  <p class="mt-3 text-muted">No trips yet.</p>
+  <% } else { %>
+  <div class="mt-4 overflow-x-auto rounded-2xl border border-line">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-surface text-muted"><tr><th class="p-3 font-medium">Trip</th><th class="p-3 font-medium">Dates</th><th class="p-3 font-medium">Price</th><th class="p-3 font-medium">Photos</th><th class="p-3"><span class="sr-only">Actions</span></th></tr></thead>
+      <tbody class="divide-y divide-line">
+        <% trips.forEach(function (t) { %>
+        <tr>
+          <td class="p-3"><a class="font-medium hover-link focus-ring" href="/trips/<%= t.id %>"><%= t.title %></a><br><span class="text-muted"><%= t.destination %></span></td>
+          <td class="p-3 whitespace-nowrap"><%= t.dateRange %><% if (t.start_date < todayStr) { %> <span class="text-muted">(past)</span><% } %></td>
+          <td class="p-3 whitespace-nowrap"><%= t.priceText %></td>
+          <td class="p-3"><%= t.images.length %></td>
+          <td class="p-3 text-right">
+            <form method="post" action="/admin/trips/<%= t.id %>/delete" data-confirm="Delete &quot;<%= t.title %>&quot; and its images? This cannot be undone.">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button class="btn btn-danger focus-ring" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <% } %>
+</section>
+<%- include('../partials/bottom') %>

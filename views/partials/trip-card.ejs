@@ -1,0 +1,16 @@
+<article class="trip-card">
+  <a href="/trips/<%= t.id %>" class="focus-ring block rounded-2xl">
+    <div class="media skeleton">
+      <img class="lazy" src="<%= t.cover %>" alt="<%= t.title %> – <%= t.destination %>" width="800" height="600" loading="lazy" decoding="async">
+      <span class="chip"><%= t.duration %></span>
+    </div>
+    <div class="pt-3">
+      <div class="flex items-baseline justify-between gap-3">
+        <h3 class="truncate font-semibold"><%= t.destination %></h3>
+        <p class="shrink-0 text-sm"><span class="font-semibold"><%= t.priceText %></span> <span class="text-muted">/ person</span></p>
+      </div>
+      <p class="mt-0.5 text-sm text-muted"><%= t.dateRange %></p>
+      <p class="mt-1 line-clamp-2 text-sm text-ink"><%= t.blurb %></p>
+    </div>
+  </a>
+</article>
